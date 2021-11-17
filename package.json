@@ -1,0 +1,11 @@
+{
+  "name": "ndarray-visualizer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Pewww/ndarray-visualizer.git",
+  "author": "pewww <jung22337@naver.com>",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^4.4.4"
+  }
+}
