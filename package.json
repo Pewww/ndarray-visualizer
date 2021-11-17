@@ -5,7 +5,17 @@
   "repository": "https://github.com/Pewww/ndarray-visualizer.git",
   "author": "pewww <jung22337@naver.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "webpack-dev-server --open",
+    "build": "webpack"
+  },
   "dependencies": {
-    "typescript": "^4.4.4"
+    "html-loader": "1.3.2",
+    "html-webpack-plugin": "4.4.1",
+    "ts-loader": "8.0.3",
+    "typescript": "^4.4.4",
+    "webpack": "4.44.1",
+    "webpack-cli": "3.3.12",
+    "webpack-dev-server": "3.11.0"
   }
 }
