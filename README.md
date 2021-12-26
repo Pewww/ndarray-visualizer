@@ -9,4 +9,4 @@ Visualizer of N-Dimensional Array
 
 > :information_source: English is only supported.
 
-![Example Screen](https://user-images.githubusercontent.com/23455736/147401227-3785d0b3-82e1-4cf9-afff-14738cf28e78.png)
+![Example Screen](https://user-images.githubusercontent.com/23455736/147405933-6e0abf1a-6d08-4631-9e61-aa1cb99faea8.png)
