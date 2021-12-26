@@ -163,15 +163,15 @@ export default class Renderer {
     if (!folders.hasOwnProperty(GUIFolders.Camera_Position)) {
       const cameraPosition = this.$gui.addFolder(GUIFolders.Camera_Position);
 
-      cameraPosition.add(this.$perspectiveCamera.position, 'x', -100, 500, 0.5)
+      cameraPosition.add(this.$perspectiveCamera.position, 'x', -100, 300, 0.5)
         .onChange(this.renderScene.bind(this))
         .listen();
 
-      cameraPosition.add(this.$perspectiveCamera.position, 'y', -100, 500, 0.5)
+      cameraPosition.add(this.$perspectiveCamera.position, 'y', -100, 300, 0.5)
         .onChange(this.renderScene.bind(this))
         .listen();
 
-      cameraPosition.add(this.$perspectiveCamera.position, 'z', 0, 2500, 1)
+      cameraPosition.add(this.$perspectiveCamera.position, 'z', 0, 500, 1)
         .onChange(this.renderScene.bind(this))
         .listen();
 
