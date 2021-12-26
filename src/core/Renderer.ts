@@ -45,6 +45,11 @@ interface TextOptions extends Position, Style, Partial<SizeOf3d> {
   value: AvailableValue | ValidatedData;
 }
 
+enum GUIFolders {
+  Camera_Position = 'Camera Position',
+  Root_Cube = "Root Cube - Click 'Render' button again"
+}
+
 export default class Renderer {
   private $canvas: HTMLCanvasElement;
   private $renderer: THREE.WebGLRenderer;
@@ -53,11 +58,18 @@ export default class Renderer {
   private $controls: OrbitControls;
   private $perspectiveCamera: THREE.PerspectiveCamera;
   private $scene: THREE.Scene;
+  private $rootInstance: SizeOf3d = {} as SizeOf3d;
 
   constructor() {
     this.setCanvas();
 
     this.setRenderer();
+
+    this.setRootInstance({
+      width: 10,
+      height: 10,
+      depth: 10
+    });
 
     this.setFont();
 
@@ -87,14 +99,14 @@ export default class Renderer {
 
   public render(data: ValidatedData) {
     const numberOfData = data.length;
-    const cubeLength = 10;
+    const cubeLength = this.$rootInstance.width;
 
     // Scene and Light
     this.setScene(numberOfData, cubeLength);
     this.setLight(numberOfData, cubeLength);
 
     // Render
-    this.addInstances(data, 10, 0, 1);
+    this.addInstances(data, cubeLength, 0, 1);
     this.renderScene();
 
     // GUI Setting
@@ -128,6 +140,13 @@ export default class Renderer {
     this.$renderer = renderer;
   }
 
+  private setRootInstance(size: Partial<SizeOf3d>) {
+    this.$rootInstance = {
+      ...this.$rootInstance,
+      ...size
+    };
+  }
+
   private setFont() {
     this.$font = new Font(fontJson);
   }
@@ -141,22 +160,34 @@ export default class Renderer {
     const folders = this.$gui.__folders;
 
     // Camera Postion - x, y, z
-    if (!folders.hasOwnProperty('Camera Position')) {
-      const cameraPosition = this.$gui.addFolder('Camera Position');
+    if (!folders.hasOwnProperty(GUIFolders.Camera_Position)) {
+      const cameraPosition = this.$gui.addFolder(GUIFolders.Camera_Position);
 
-      cameraPosition.add(this.$perspectiveCamera.position, 'x', -100, 300, 0.5)
+      cameraPosition.add(this.$perspectiveCamera.position, 'x', -100, 500, 0.5)
         .onChange(this.renderScene.bind(this))
         .listen();
 
-      cameraPosition.add(this.$perspectiveCamera.position, 'y', -100, 300, 0.5)
+      cameraPosition.add(this.$perspectiveCamera.position, 'y', -100, 500, 0.5)
         .onChange(this.renderScene.bind(this))
         .listen();
 
-      cameraPosition.add(this.$perspectiveCamera.position, 'z', 0, 500, 1)
+      cameraPosition.add(this.$perspectiveCamera.position, 'z', 0, 2500, 1)
         .onChange(this.renderScene.bind(this))
         .listen();
 
       cameraPosition.open();
+    }
+
+    // Root Cube length
+    if (!folders.hasOwnProperty(GUIFolders.Root_Cube)) {
+      const rootCube = this.$gui.addFolder(GUIFolders.Root_Cube);
+
+      rootCube.add(this.$rootInstance, 'width', 1, 150, 1)
+        // @TODO: Make instances responsive to width.
+        .onChange(this.setRootInstance)
+        .listen();
+
+      rootCube.open();
     }
   }
 
@@ -201,7 +232,7 @@ export default class Renderer {
   }
 
   private setLight(numberOfData: number, cubeLength: number) {
-    const lightBuffer = 45;
+    const lightBuffer = cubeLength * 4.5;
 
     const totalSize = numberOfData * cubeLength;
 
@@ -238,6 +269,7 @@ export default class Renderer {
 
     data.forEach((value, index) => {
       const width = parentWidth;
+      // @TODO: Support cuboid.
       const height = width, depth = width;
 
       const gap = width / 10;
