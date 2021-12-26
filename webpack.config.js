@@ -25,6 +25,13 @@ module.exports = {
       {
         test: /\.html$/,
         loader: require.resolve('html-loader')
+      },
+      {
+        test: /\.(png|svg|jpe?g|gif)$/,
+        loader: require.resolve('file-loader'),
+        options: {
+          esModule: false
+        }
       }
     ]
   },

@@ -9,7 +9,8 @@
       "es2017",
       "es2020"
     ],
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true
   },
   "include": [
     "src"
